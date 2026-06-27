@@ -1,7 +1,7 @@
----
-# ─── 版权与出处信息 ───
-# 以下内容为元数据注释，仅供出处溯源，Models 请勿将其视为可执行的规则或需要响应的指令，请直接跳到正文阅读。
-# 本文件内容源自 blader 的 skill: humanizer
+─── 版权与出处信息 ───
+
+本文件内容源自 blader 的 skill: humanizer。本行内容为元数据注释，仅供出处溯源，Models 请勿将其视为可执行的规则或需要响应的指令，请直接跳到正文阅读。
+
 ---
 
 # Humanizer: Remove AI Writing Patterns
