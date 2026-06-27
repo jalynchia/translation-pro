@@ -1,0 +1,117 @@
+---
+name: translation-pro
+description: >-
+  High-quality Chinese–English bidirectional translation with cultural &
+  industry awareness. Use this skill whenever the user wants to translate
+  between Chinese and English — whether they say "翻译", "帮我翻一下",
+  "中译英", "英译中", "帮我把这个翻成中文/英文", "translate this",
+  "Chinese to English", "English to Chinese", or simply paste text in
+  one language and ask for the other. Also triggers when the user needs
+  something more than word-for-word conversion — look for clues like
+  "地道", "自然", "专业翻译", "不要翻译腔", "polish translation",
+  "localized", "idiomatic", "industry translation", "需要润色",
+  "正式翻译", or any context suggesting professional-grade or
+  culturally-aware translation. Integrates humanizer-zh post-processing to
+  eliminate translationese, AI writing patterns, and unnatural phrasings —
+  making the final output read like native-written content rather than
+  a machine translation.
+---
+
+# translation-pro
+
+高质中英互译 Skill。自动检测源语言，产出符合目标语言文化语境、习惯表达和行业专业性的翻译结果。
+
+---
+
+## 工作流程
+
+### Step 1：确定输出形式
+
+先询问用户：
+
+> 翻译结果直接展示在对话中，还是导出为 .md 文件？
+
+- **直接展示** → 跳过文件问题，进入 Step 2
+- **导出 .md 文件** → 再询问保存路径（只在用户选择导出时才问路径问题，也不要提前问）：
+  - 选项 1：本地的下载文件夹，例如 `~/Downloads/`
+  - 选项 2：用户指定其他路径
+
+### Step 2：深度理解原文
+
+拿到待翻译文本后，先通读全文，主动分析：
+
+- **语境与意图**：这是技术文档、营销文案、社媒帖子、学术论文、法律条款，还是日常对话？
+- **行业领域**：识别所涉行业——科技 / 金融 / 医疗 / 法律 / 营销 / 教育 / 游戏 / 电商……
+- **语域（register）**：正式 / 非正式 / 口语 / 书面 / 严肃 / 轻松 / 幽默 / 煽情
+- **文化背景**：原文中是否有目标读者可能不理解的文化概念、梗、典故？
+
+**不需要把这些分析输出给用户**，它们是你的内部思考。
+
+### Step 3：执行翻译
+
+执行翻译时应遵循以下原则：
+
+#### 3.1 核心约束
+
+| 约束               | 说明                                     |
+| ------------------ | ---------------------------------------- |
+| **自动检测源语言** | 输入中文 → 译英文，输入英文 → 译中文     |
+| **忠实原意**       | 绝不改变原文含义和结构层次               |
+| **术语一致性**     | 使用行业公认标准译名                     |
+| **排版规范**       | 中文与英文/数字间保持空格；使用正确标点  |
+| **Markdown 结构**  | 保留原文格式化层次（标题、列表、加粗等） |
+
+#### 3.2 需要你重点投入精力的要点
+
+以下四点是区分「普通翻译」和「专业翻译」的关键：
+
+**① 数字 / 日期 / 单位本地化**
+- 英译中：`May 3, 2026` → `2026 年 5 月 3 日`；`1,234.56` 保留千分位；物理单位可本地化（`5 feet` → `1.5 米`，先查是否已有通用中文简称）
+- 中译英：`2026年5月3日` → `May 3, 2026`；`1,234` 可按目标语境决定是否加千分位
+
+**② 语域识别与适配**
+- 营销文案 → 有感染力的号召性语言，保留节奏感
+- 学术论文 → 严谨规范的学术表达，保留论证逻辑
+- 社媒对话 → 自然口语化，保留语气
+- 法律条款 → 精确严谨的书面语，逐句对应
+
+**③ 文化负载词处理**
+- 优先寻找目标语言的对等习惯表达，而非字面直译
+- 例：`as cool as a cucumber` → `镇定自若`；`半斤八两` → `six of one, half a dozen of the other`
+- 无直接对等时保留原文，在对话中附简短说明
+
+**④ 专有名词注意**
+- 人名、地名、品牌名、作品名按通行译法（或用户已知译法）处理
+- 不确定时保留原文，不得擅自创造译名
+
+#### 3.3 免责声明
+
+当原文属于法律、医学、金融合同等高风险领域时，在对话中附加强调：
+
+> **免责声明**：本翻译仅供参考，不构成专业意见。涉及法律合同、医疗诊断、金融文件等重大事项，请由持证专业人士复核。
+
+如果原文明显是科普介绍 / 学习资料 / 产品说明等低风险内容，不需要此声明。
+
+#### 3.4 翻译腔消除（后处理）
+
+Step 3.1–3.3 的初稿完成后，执行一轮专门针对「翻译腔」的后处理润色：
+
+1. **加载参考**：英译中时读取 `references/humanizer-zh.md`，中译英时读取 `references/humanizer.md`
+2. **针对性重写**：按照 `references/humanizer-zh.md` 或 `references/humanizer.md` 对发现的每个问题逐处修复。
+3. **注意边界**：此步骤不修改原文的技术准确性和术语一致性（3.1 的约束仍然是第一位的）。不把严肃的技术文档改得太随意，也不把营销文案改得太死板——语域判断以 Step 2 的分析为准。
+
+### Step 4：输出
+
+- **直接展示**：在对话中清晰展示翻译结果。如果有行业术语方面的重要决策，附一句简短说明。
+- **保存为 .md 文件**：
+  - 文件名：`translation-{源语言}-{目标语言}-{时间戳}.md`
+  - 写入指定路径后告知用户保存位置
+  - 如果有行业术语方面的重要决策，在对话中附一句简短说明。
+
+---
+
+## 与用户交互的节奏
+
+1. **一次翻译只处理一段输入**。不要问用户「还要翻别的吗」——如果用户需要继续翻，他们会说。
+2. **不要输出你的分析过程**（Step 2 的内容）只给结果、文件名、保存路径。
+3. 如果原文有明显歧义（如 `"Apple"` 在上下文中无法判断是水果还是公司），先在对话中用一句话确认，再翻译。
