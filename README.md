@@ -1,8 +1,8 @@
 ---
 name: "translation-pro"
 description: "中英双向翻译 Skill，自动识别语境与行业，并在初稿后对照 humanizer 规则重写，消除翻译腔与 AI 痕迹。"
-version: 1.0.0
-Update date: 2026-06-27
+version: 1.0.1
+Update date: 2026-06-28
 ---
 
 ## 核心功能
